@@ -1,0 +1,36 @@
+
+## The following api call will create the index vmstat_sol and assign the mappings for each field.
+
+curl -XPUT 'localhost:9200/vmstat_sol?pretty' -H 'Content-Type: application/json' -d'
+{
+    "mappings" : {
+        "external" : {
+            "properties" : {
+      		      "b":{"type":"long"},
+		      "cs":{"type":"long"},
+		      "de":{"type":"long"},
+		      "fr":{"type":"long"},
+		      "free":{"type":"long"},
+		      "host":{"type":"text"},
+		      "id":{"type":"long"},
+		      "in":{"type":"long"},
+		      "mf":{"type":"long"},
+		      "pi":{"type":"long"},
+		      "po":{"type":"long"},
+		      "r":{"type":"long"},
+		      "re":{"type":"long"},
+		      "s0":{"type":"long"},
+		      "s1":{"type":"long"},
+		      "s2":{"type":"long"},
+		      "s3":{"type":"long"},
+		      "sr":{"type":"long"},
+		      "swap":{"type":"long"},
+		      "sy":{"type":"long"},
+		      "timestamp":{"type":"date"},
+		      "us":{"type":"long"},
+      "w":{"type":"long"}
+            }
+        }
+    }
+}
+'
