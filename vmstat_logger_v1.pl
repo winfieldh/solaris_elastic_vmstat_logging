@@ -52,18 +52,25 @@ $JSON->convert_blessed(1);
 
 #grab vmstat data
 my $vmstatdata = `vmstat | grep -v free | grep -v memory`; 
+
 #remove newline from end of line
 chomp($vmstatdata ); 
+
 #remove leading spaces
 $vmstatdata =~ s/^\s+//; 
+
 #substitute double spaces with single
 $vmstatdata =~ s/  / /g; 
+
 #substitute single spaces with comma
 $vmstatdata =~ s/ /,/g; 
-#prepend hostname
+
+#prepend hostname so can be used as filter in ES
 $vmstatdata = hostname.",".$vmstatdata ; 
+
 #prepend date timestamp
 $vmstatdata = localtime().",".$vmstatdata ; 
+
 #create array of vmstat data
 my @dataarray = split(/,/,$vmstatdata );
 
@@ -82,4 +89,4 @@ print "JSON: ".$json;
 
 #POST the json to elasticsearch
 my $results = `curl -XPOST '$eshost:$esport/$esindex/external/?pretty' -H 'Content-Type: application/json' -d' $json`;
-print "$results\n";
+#print "$results\n";
