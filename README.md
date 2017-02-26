@@ -1,0 +1,1 @@
+# solaris_elastic_vmstat_logging
