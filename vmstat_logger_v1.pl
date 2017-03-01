@@ -42,8 +42,9 @@ package main;
 use JSON;
 use Sys::Hostname;
 use Scalar::Util 'looks_like_number';
+use POSIX;
 
-my $eshost = "192.168.1.167";
+my $eshost = "x.x.x.x";
 my $esport = "9200";
 my $esindex = "vmstat_sol";
 
@@ -51,7 +52,7 @@ my $JSON = JSON->new->allow_nonref;
 $JSON->convert_blessed(1);
 
 #grab vmstat data
-my $vmstatdata = `vmstat | grep -v free | grep -v memory`; 
+my $vmstatdata = `vmstat 1 3 | tail -1`; 
 
 #remove newline from end of line
 chomp($vmstatdata ); 
@@ -69,7 +70,9 @@ $vmstatdata =~ s/ /,/g;
 $vmstatdata = hostname.",".$vmstatdata ; 
 
 #prepend date timestamp
-$vmstatdata = localtime().",".$vmstatdata ; 
+my $timestamp = POSIX::strftime("%Y-%m-%dT%H:%M:%S",localtime());
+$vmstatdata = $timestamp.",".$vmstatdata ; 
+print $timestamp;
 
 #create array of vmstat data
 my @dataarray = split(/,/,$vmstatdata );
@@ -89,4 +92,4 @@ print "JSON: ".$json;
 
 #POST the json to elasticsearch
 my $results = `curl -XPOST '$eshost:$esport/$esindex/external/?pretty' -H 'Content-Type: application/json' -d' $json`;
-#print "$results\n";
+print "$results\n";
