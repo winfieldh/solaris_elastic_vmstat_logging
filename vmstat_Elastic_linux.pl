@@ -39,7 +39,7 @@ use Sys::Hostname;
 use Scalar::Util 'looks_like_number';
 use POSIX;
 
-my $eshost = "172.16.1.149";
+my $eshost = "x.x.x.x";
 my $esport = "9200";
 my $esindex = "vmstat_linux";
 #my $esindex = "vmstat_sol";
